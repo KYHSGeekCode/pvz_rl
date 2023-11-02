@@ -1,14 +1,14 @@
 import gym
-from itertools import count
+import matplotlib.pyplot as plt
 import numpy as np
-import json
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.autograd import Variable
 import torch.optim as optim
-from pvz import config
-import matplotlib.pyplot as plt
+from torch.autograd import Variable
+
+from agents import evaluate
+from pvz.pvz import config
 
 # from .evaluate_agent import evaluate
 # from .threshold import Threshold
@@ -154,7 +154,7 @@ class PlayerV2:
         return self.env.action_space.n
 
     def _transform_observation(self, observation):
-        observation = observation.astype(np.float64)
+        observation = np.concatenate(observation).astype(np.float64)
         observation_zombie = self._grid_to_lane(
             observation[self._grid_size : 2 * self._grid_size]
         )
@@ -196,7 +196,7 @@ class PlayerV2:
 
             summary["observations"].append(observation)
             summary["actions"].append(action)
-            observation, reward, done, info = self.env.step(action)
+            observation, reward, done, truncated, info = self.env.step(action)
             observation = self._transform_observation(observation)
             summary["rewards"].append(reward)
 

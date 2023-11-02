@@ -1,3 +1,5 @@
+import typing
+
 import gym
 from gym.core import ObsType
 from gym.spaces import MultiDiscrete, MultiBinary, Tuple, Discrete
@@ -55,7 +57,7 @@ class PVZEnv_V2(gym.Env):
         self._scene = Scene(self.plant_deck, WaveZombieSpawner())
         self._reward = 0
 
-    def step(self, action) -> Tuple[ObsType, float, bool, bool, dict]:
+    def step(self, action) -> typing.Tuple[ObsType, float, bool, bool, dict]:
         """
 
         Parameters
@@ -87,18 +89,19 @@ class PVZEnv_V2(gym.Env):
 
         self._take_action(action)
         self._scene.step()  # Minimum one step
-        reward = self._scene.score
-        episode_over = self._scene._chrono > config.MAX_FRAMES
+        reward: float = self._scene.score
+        episode_over: bool = self._scene._chrono > config.MAX_FRAMES
         while (not self._scene.move_available()) and (not episode_over):
             self._scene.step()
             episode_over = self._scene._chrono > config.MAX_FRAMES
             reward += self._scene.score
         ob = self._get_obs()
-        episode_over = (episode_over) or (self._scene.lives <= 0)
+        episode_over = episode_over or (self._scene.lives <= 0)
         self._reward = reward
-        return ob, reward, episode_over, {}
+        truncated = False
+        return ob, reward, episode_over, truncated, {}
 
-    def _get_obs(self):
+    def _get_obs(self) -> ObsType:
         obs_grid = np.zeros(config.N_LANES * config.LANE_LENGTH, dtype=int)
         zombie_grid = np.zeros(config.N_LANES * config.LANE_LENGTH, dtype=int)
         for plant in self._scene.plants:
@@ -119,11 +122,9 @@ class PVZEnv_V2(gym.Env):
                 for plant_name in self.plant_deck
             ]
         )
-        return np.concatenate(
-            [obs_grid, zombie_grid, [min(self._scene.sun, MAX_SUN)], action_available]
-        )
+        return obs_grid, zombie_grid, [min(self._scene.sun, MAX_SUN)], action_available
 
-    def reset(self):
+    def reset(self, **kwargs):
         self._scene = Scene(self.plant_deck, WaveZombieSpawner())
         return self._get_obs()
 

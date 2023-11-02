@@ -412,7 +412,7 @@ class PlayerQ:
         return self.env.action_space.n
 
     def _transform_observation(self, observation):
-        observation = observation.astype(np.float64)
+        observation = np.concatenate(observation).astype(np.float64)
         observation = np.concatenate(
             [
                 observation[: self._grid_size],
@@ -451,7 +451,7 @@ class PlayerQ:
             )
             summary["observations"].append(observation)
             summary["actions"].append(action)
-            observation, reward, done, info = self.env.step(action)
+            observation, reward, done, truncated, info = self.env.step(action)
             observation = self._transform_observation(observation)
             summary["rewards"].append(reward)
 

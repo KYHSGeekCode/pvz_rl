@@ -166,7 +166,7 @@ def render(render_info):
     pygame.quit()
 
 
-agent_type = "Keyboard"  # DDQN or Reinforce or AC or Keyboard
+agent_type = "DDQN"  # DDQN or Reinforce or AC or Keyboard
 
 
 if __name__ == "__main__":
