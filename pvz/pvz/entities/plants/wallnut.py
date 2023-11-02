@@ -5,8 +5,8 @@ WALLNUT_COST = 50
 WALLNUT_COOLDOWN = 20
 WALLNUT_MAX_HP = 4000
 
-class Wallnut(Plant):
 
+class Wallnut(Plant):
     # Entity
     MAX_HP = WALLNUT_MAX_HP
 
@@ -17,6 +17,5 @@ class Wallnut(Plant):
     def __init__(self, lane, pos):
         super().__init__(lane, pos)
 
-    
     def step(self, scene):
         pass

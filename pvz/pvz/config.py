@@ -1,9 +1,9 @@
 FPS = 2
 
-MAX_FRAMES=400
+MAX_FRAMES = 400
 
-N_LANES = 5 # Height
-LANE_LENGTH = 9 # Width
+N_LANES = 5  # Height
+LANE_LENGTH = 9  # Width
 
 INITIAL_SUN_AMOUNT = 50
 
@@ -16,7 +16,7 @@ MOWERS = False
 
 # Score values
 SURVIVAL = 0
-SURVIVAL_STEP = 20 # every 100 sec survival reward increases
+SURVIVAL_STEP = 20  # every 100 sec survival reward increases
 SCORE_ALIVE_PLANT = 0
 SCORE_ALIVE_MOWER = 0
 

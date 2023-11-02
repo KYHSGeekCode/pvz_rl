@@ -25,20 +25,35 @@ for episode_idx in range(n_ep):
 _grid_size = config.N_LANES * config.LANE_LENGTH
 
 obs = np.concatenate(obs)
-obs = np.array([np.concatenate([state[:_grid_size], 
-                       np.sum(state[_grid_size: 2 * _grid_size].reshape(-1, config.LANE_LENGTH), axis=1), 
-                       state[2 * _grid_size:]]) for state in obs])
+obs = np.array(
+    [
+        np.concatenate(
+            [
+                state[:_grid_size],
+                np.sum(
+                    state[_grid_size : 2 * _grid_size].reshape(-1, config.LANE_LENGTH),
+                    axis=1,
+                ),
+                state[2 * _grid_size :],
+            ]
+        )
+        for state in obs
+    ]
+)
 
 n_obs = len(obs)
 
 e = shap.DeepExplainer(
-        agent.network, 
-        torch.from_numpy(
-            obs[np.random.choice(np.arange(len(obs)), 100, replace=False)]
-        ).type(torch.FloatTensor).to(DEVICE))
+    agent.network,
+    torch.from_numpy(obs[np.random.choice(np.arange(len(obs)), 100, replace=False)])
+    .type(torch.FloatTensor)
+    .to(DEVICE),
+)
 
 shap_values = e.shap_values(
-    torch.from_numpy(obs[np.random.choice(np.arange(len(obs)), 30, replace=False)]).type(torch.FloatTensor).to(DEVICE)
+    torch.from_numpy(obs[np.random.choice(np.arange(len(obs)), 30, replace=False)])
+    .type(torch.FloatTensor)
+    .to(DEVICE)
 )
 
 s = np.stack([np.sum(s, axis=0) for s in shap_values])

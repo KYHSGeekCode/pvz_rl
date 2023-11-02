@@ -1,8 +1,8 @@
 from ..entity import Entity
 from ... import config
 
-class Plant(Entity):
 
+class Plant(Entity):
     COOLDOWN = None
     COST = None
 
@@ -14,6 +14,6 @@ class Plant(Entity):
 
         super().__init__(lane)
 
-        assert(pos>=0)
-        assert(pos<config.LANE_LENGTH)
+        assert pos >= 0
+        assert pos < config.LANE_LENGTH
         self.pos = pos

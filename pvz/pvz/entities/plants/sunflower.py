@@ -8,8 +8,8 @@ SUNFLOWER_PRODUCTION = 25
 SUNFLOWER_INITIAL_COOLDOWN = 5
 SUNFLOWER_PRODUCTION_COOLDOWN = 5
 
-class Sunflower(Plant):
 
+class Sunflower(Plant):
     # Entity
     MAX_HP = SUNFLOWER_MAX_HP
 
@@ -25,7 +25,7 @@ class Sunflower(Plant):
     def __init__(self, lane, pos):
         super().__init__(lane, pos)
         self.production_cooldown = self.INITIAL_COOLDOWN * config.FPS - 1
-    
+
     def step(self, scene):
         if self.production_cooldown <= 0:
             scene.sun += self.PRODUCTION

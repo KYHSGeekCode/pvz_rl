@@ -6,11 +6,11 @@ PEASHOOTER_COST = 100
 PEASHOOTER_COOLDOWN = 5
 PEASHOOTER_MAX_HP = 300
 PEASHOOTER_ATTACK = 20
-PEASHOOTER_ATTACK_COOLDOWN = 1.5 # Seconds between attacks
-PEASHOOTER_PROJECTILE_SPEED = 5 # Cells per second
+PEASHOOTER_ATTACK_COOLDOWN = 1.5  # Seconds between attacks
+PEASHOOTER_PROJECTILE_SPEED = 5  # Cells per second
+
 
 class Peashooter(Plant):
-
     # Entity
     MAX_HP = PEASHOOTER_MAX_HP
 
@@ -28,11 +28,12 @@ class Peashooter(Plant):
         self.attack_cooldown = self.ATTACK_COOLDOWN * config.FPS - 1
         self.projectiles = []
 
-    
     def step(self, scene):
         if self.attack_cooldown <= 0:
             if scene.grid.is_attacked(self.lane):
-                scene.projectiles.append(Pea(self.PROJECTILE_SPEED, self.ATTACK, self.lane, self.pos))
+                scene.projectiles.append(
+                    Pea(self.PROJECTILE_SPEED, self.ATTACK, self.lane, self.pos)
+                )
                 self.attack_cooldown = self.ATTACK_COOLDOWN * config.FPS - 1
         else:
             self.attack_cooldown -= 1
@@ -50,5 +51,3 @@ class Peashooter(Plant):
             if alive and (not projectile.is_out()):
                 kept_projectiles.append(projectile)
         self.projectiles = kept_projectiles"""
-            
-

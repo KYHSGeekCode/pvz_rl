@@ -2,18 +2,18 @@ from ... import config
 from .zombie import Zombie
 
 
-
 class Zombie_bucket(Zombie):
-
     MAX_HP = 1100
-    SCORE = 120 # It will add 30 for the normal zombie kill
+    SCORE = 120  # It will add 30 for the normal zombie kill
 
     def step(self, scene):
         if scene.grid.is_empty(self.lane, self.pos):
             if self._offset <= 0:
                 self.pos -= 1
                 self._offset = self._cell_length - 1
-                if self.pos < 0: # If the zombie reached the house, we lose a life and the zombie disappear
+                if (
+                    self.pos < 0
+                ):  # If the zombie reached the house, we lose a life and the zombie disappear
                     scene.zombie_reach(self.lane)
                     self.hp = 0
             else:
@@ -23,9 +23,9 @@ class Zombie_bucket(Zombie):
                 if (plant.lane == self.lane) and (plant.pos == self.pos):
                     self.attack(plant)
                     break
-        if self.hp<190:
-            zombie = Zombie(self.lane,self.pos)
+        if self.hp < 190:
+            zombie = Zombie(self.lane, self.pos)
             zombie.hp = self.hp
             zombie._offset = self._offset
             scene.add_zombie(zombie)
-            self.hp=0
+            self.hp = 0

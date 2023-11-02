@@ -5,13 +5,12 @@ from agents import evaluate
 from copy import deepcopy
 
 
-
 if __name__ == "__main__":
     n_iter = 100000
-    env = gym.make('gym_pvz:pvz-env-v2')
+    env = gym.make("gym_pvz:pvz-env-v2")
     nn_name = input("Save name: ")
     buffer = experienceReplayBuffer(memory_size=100000, burn_in=10000)
-    net = QNetwork(env, device='cpu', use_zombienet=False, use_gridnet=False)
+    net = QNetwork(env, device="cpu", use_zombienet=False, use_gridnet=False)
     # old_agent = torch.load("agents/benchmark/dfq5_znet_epslinear")
     # net.zombienet.load_state_dict(old_agent.zombienet.state_dict())
     # for p in net.zombienet.parameters():
